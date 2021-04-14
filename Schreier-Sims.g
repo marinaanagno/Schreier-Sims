@@ -1,10 +1,22 @@
-SchreierSims := function(g)
-  local C, a;
-  C := rec(generators := []);
-  for a in g do
-    Extend(C, a);
+Sifting := function(C, g)
+  local L, beta, delta, r;  
+  L := [];
+  while C.generators <> [] do
+    beta := C.orbit[1];
+    delta := OnPoints(beta, g);
+    if not IsBound (C.transversal[delta]) then
+      return fail;
+    fi;
+    r := C.transversal[delta];
+    g := g * r ^ (-1);
+    Add(L, r);
+    C := C.zstabiliser;
   od;
-  return C;
+  if g <> () then
+    return fail;
+  else
+    return L;
+  fi;
 end;
 
 ValidateStabChain := function(C)
@@ -32,8 +44,7 @@ ValidateStabChain := function(C)
     C := C.zstabiliser;
   od;
   return true;
-end;               
-
+end; 
 
 Extend := function(C, a)
   local  beta, delta, s, O, T, l, gamma, l_2, i, j, b;
@@ -79,7 +90,7 @@ Extend := function(C, a)
         for b in Union(C.generators, [a]) do
           gamma := OnPoints(delta, b);
           if not gamma in O then
-            Add(gamma, O);
+            Add(O, gamma);
             C.transversal[gamma] := b;
             # ValidateStabChain(C);
           else
@@ -93,24 +104,17 @@ Extend := function(C, a)
     fi;
   fi;
 end;
-    
-Sifting := function(C, g)
-  local L, beta, delta, r;  
-  L := [];
-  while C.generators <> [] do
-    beta := C.orbit[1];
-    delta := OnPoints(beta, g);
-    if not IsBound (C.transversal[delta]) then
-      return fail;
-    fi;
-    r := C.transversal[delta];
-    g := g * r ^ (-1);
-    Add(L, r);
-    C := C.zstabiliser;
+
+SchreierSims := function(g)
+  local C, a;
+  C := rec(generators := []);
+  for a in g do
+    Extend(C, a);
   od;
-  if g <> () then
-    return fail;
-  else
-    return L;
-  fi;
-end;  
+  return C;
+end;
+
+              
+
+
+ 
