@@ -1,0 +1,20 @@
+# Sifting
+
+Sifting takes as input a stabiliser chain C for a group G and an element of g.
+If g is not an element of the group described by the stabiliser chain C then Sifting returns an error.
+Otherwise, Sifting(G, g) returns a list L = [b_1, ..., b_n] of base points, such that
+g = b_1 * b_2 * ... * b_n.
+
+# ValidateStabChain
+
+ValidateStabChain takes as input a stabiliser chain checks that it is indeed a valid stabiliser chain.
+If not then the function returns an error, otherwise the function returns true.
+
+# Extend
+
+Extend takes as input a stabiliser chain and an element g. Extend extends the stabiliser chain by adding a to the generators
+of the given layer we're in when the function is running and updates the lower layers accordingly.
+
+# SchreierSims
+
+Schreier-Sims takes as input a generating set for a group and returns a stabiliser chain for that group.
